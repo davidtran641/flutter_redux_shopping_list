@@ -7,7 +7,7 @@ import 'package:shopping_list/store/app_state.dart';
 Store<AppState> createStore() {
   return DevToolsStore<AppState>(
     appReducer,
-    initialState: AppState(List()),
+    initialState: AppState.make(),
     middleware: [LoggingMiddleware()],
   );
 }
