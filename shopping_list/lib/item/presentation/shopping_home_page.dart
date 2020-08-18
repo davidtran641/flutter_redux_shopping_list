@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_redux_dev_tools/flutter_redux_dev_tools.dart';
 import 'package:redux/redux.dart';
 import 'package:shopping_list/item/presentation/summary_bottom_bar.dart';
 import 'package:shopping_list/store/app_state.dart';
@@ -11,7 +12,7 @@ class ShoppingHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ShoppingHomePageViewModel>(
       converter: (store) => ShoppingHomePageViewModel.make(store),
-      builder: (context, list) {
+      builder: (context, viewModel) {
         return Scaffold(
           appBar: AppBar(title: Text('Shopping List')),
           body: ShoppingListPage(),
@@ -20,6 +21,11 @@ class ShoppingHomePage extends StatelessWidget {
             child: Icon(Icons.add),
           ),
           bottomSheet: SummaryBottomBar(),
+          endDrawer: Container(
+            width: 240,
+            color: Colors.white,
+            child: ReduxDevTools<AppState>(viewModel.store),
+          ),
         );
       },
     );
@@ -31,9 +37,11 @@ class ShoppingHomePage extends StatelessWidget {
 }
 
 class ShoppingHomePageViewModel {
-  ShoppingHomePageViewModel();
+  Store<AppState> store;
+
+  ShoppingHomePageViewModel(this.store);
 
   factory ShoppingHomePageViewModel.make(Store<AppState> store) {
-    return ShoppingHomePageViewModel();
+    return ShoppingHomePageViewModel(store);
   }
 }
